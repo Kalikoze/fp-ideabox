@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  text-align: center;
+}
+
+form {
+  margin: auto;
+}
+
+input, button {
+  margin: 5px;
+  width: 30%;
+  border: 2px solid black;
+  font-size: 18px;
+}
+
+.ideas-container {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
+
+.card {
+  box-sizing: border-box;
+  border: 3px solid black;
+  padding: 10px;
+}
