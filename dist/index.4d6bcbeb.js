@@ -534,6 +534,7 @@ function hmrAcceptRun(bundle, id) {
 },{}],"gLLPy":[function(require,module,exports) {
 var _normalizeCss = require("normalize.css");
 var _app = require("./app");
+var _domUpdates = require("./domUpdates");
 const title = document.querySelector("#title");
 const body = document.querySelector("#body");
 const saveBtn = document.querySelector('button[type="submit');
@@ -541,16 +542,17 @@ const showStarred = document.querySelector("showStars");
 const search = document.querySelector("#search");
 const app = (0, _app.startApp)([]);
 const saveNewIdea = (e)=>{
-    e.preventDefault();
     const ideas = app.addNewIdea({
         title: title.value,
         body: body.value
     });
-    console.log(ideas);
+    e.preventDefault();
+    (0, _domUpdates.displayIdeas)(ideas);
+    (0, _domUpdates.clearForm)();
 };
 saveBtn.addEventListener("click", saveNewIdea);
 
-},{"./app":"bNKaB","normalize.css":"eLmrl"}],"bNKaB":[function(require,module,exports) {
+},{"normalize.css":"eLmrl","./app":"bNKaB","./domUpdates":"lf4zv"}],"eLmrl":[function() {},{}],"bNKaB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "startApp", ()=>startApp);
@@ -605,6 +607,87 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"eLmrl":[function() {},{}]},["8TtF2","gLLPy"], "gLLPy", "parcelRequire94c2")
+},{}],"lf4zv":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "displayIdeas", ()=>displayIdeas);
+parcelHelpers.export(exports, "clearForm", ()=>clearForm);
+var _starSvg = require("../assets/star.svg");
+var _starSvgDefault = parcelHelpers.interopDefault(_starSvg);
+var _starActiveSvg = require("../assets/star-active.svg");
+var _starActiveSvgDefault = parcelHelpers.interopDefault(_starActiveSvg);
+var _deleteSvg = require("../assets/delete.svg");
+var _deleteSvgDefault = parcelHelpers.interopDefault(_deleteSvg);
+const ideasDisplay = document.querySelector(".ideas-container");
+const displayIdeas = (ideas)=>{
+    ideasDisplay.innerHTML = "";
+    ideas.forEach((idea)=>{
+        const { title: title1 , body: body1 , favorited  } = idea;
+        ideasDisplay.innerHTML += `
+    <section class='idea-card'>
+      <header class='card-header'>
+        <img src=${favorited ? starActiveMg : (0, _starSvgDefault.default)} />
+        <img src=${0, _deleteSvgDefault.default}" alt="Delete icon"/>
+       </header>
+       <main>
+        <p>${title1}<p>
+        <p>${body1}<p/>
+       </main>
+       <footer>
+       </footer>
+    
+    </section>
+  `;
+    });
+};
+const clearForm = ()=>{
+    title.value = "";
+    body.value = "";
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../assets/delete.svg":"gGdY7","../assets/star-active.svg":"bsMkg","../assets/star.svg":"aR7yF"}],"gGdY7":[function(require,module,exports) {
+module.exports = require("4fae05842b00838b").getBundleURL("gnRNX") + "delete.a02ac8f9.svg" + "?" + Date.now();
+
+},{"4fae05842b00838b":"lgJ39"}],"lgJ39":[function(require,module,exports) {
+"use strict";
+var bundleURL = {};
+function getBundleURLCached(id) {
+    var value = bundleURL[id];
+    if (!value) {
+        value = getBundleURL();
+        bundleURL[id] = value;
+    }
+    return value;
+}
+function getBundleURL() {
+    try {
+        throw new Error();
+    } catch (err) {
+        var matches = ("" + err.stack).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^)\n]+/g);
+        if (matches) // The first two stack frames will be this function and getBundleURLCached.
+        // Use the 3rd one, which will be a runtime in the original bundle.
+        return getBaseURL(matches[2]);
+    }
+    return "/";
+}
+function getBaseURL(url) {
+    return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
+} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
+function getOrigin(url) {
+    var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
+    if (!matches) throw new Error("Origin not found");
+    return matches[0];
+}
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+exports.getOrigin = getOrigin;
+
+},{}],"bsMkg":[function(require,module,exports) {
+module.exports = require("94018055e59fa1b7").getBundleURL("gnRNX") + "star-active.e4bbcde6.svg" + "?" + Date.now();
+
+},{"94018055e59fa1b7":"lgJ39"}],"aR7yF":[function(require,module,exports) {
+module.exports = require("91dffa3d0eff875d").getBundleURL("gnRNX") + "star.73f8a24b.svg" + "?" + Date.now();
+
+},{"91dffa3d0eff875d":"lgJ39"}]},["8TtF2","gLLPy"], "gLLPy", "parcelRequire94c2")
 
 //# sourceMappingURL=index.4d6bcbeb.js.map

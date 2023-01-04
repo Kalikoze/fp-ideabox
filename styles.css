@@ -1,0 +1,145 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+header, body {
+  font-family: "Open Sans";
+  font-weight: bold;
+}
+
+body {
+  display: flex;
+}
+
+form {
+  margin: auto;
+}
+
+/* Aside Styles */
+h1 {
+  color: #E9E9F3;
+  font-size: 2em;
+  text-align: center;
+}
+
+aside {
+  background-color: #1F1F3D;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  width: 25%;
+}
+
+aside section {
+  border-top: 2px solid #353567;
+  border-bottom: 2px solid #353567;
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+aside section p {
+  color: #BFBFDD;
+}
+
+aside section button {
+  background-color: #5356A4;
+  color: #E9E9F3;
+  border: 2px solid #353567;
+  width: 80%; 
+}
+
+/* Header Styles */
+
+main {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  height: 100vh;
+}
+
+header {
+  background-color: #A9AAD2;
+  display: flex;
+  flex-direction: column;
+  height: 30%;
+  width: 100%;
+}
+
+form {
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+form div {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+
+input, button {
+  margin: 5px;
+  width: 30%;
+  border: 2px solid #353567;;
+  font-size: 18px;
+}
+
+button {
+  background-color: #1F1F3D;
+  color: #E9E9F3;
+}
+
+/* Ideas Container */
+
+.ideas-container {
+  background-color: #EAEAF4;
+  height: 70%;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
+
+img {
+  width: 25px;
+}
+
+.idea-card {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.idea-card header {
+  background-color: #1F1F3D;
+  height: 15%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.idea-card main {
+  background-color: #FFF;
+  display: flex;
+  height: 70%;
+  width: 100%;
+}
+
+.idea-card main p:first-child {
+  margin-bottom: 20px;
+}
+
+.idea-card footer {
+  background-color: #5356A4;
+  height: 15%;
+}

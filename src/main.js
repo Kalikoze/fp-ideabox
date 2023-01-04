@@ -1,5 +1,6 @@
 import 'normalize.css';
 import { startApp } from './app';
+import { displayIdeas, clearForm } from './domUpdates';
 
 const title = document.querySelector('#title');
 const body = document.querySelector('#body');
@@ -10,11 +11,10 @@ const search = document.querySelector('#search');
 const app = startApp([]);
 
 const saveNewIdea = (e) => {
-  e.preventDefault();
-
   const ideas = app.addNewIdea({ title: title.value, body: body.value });
-  console.log(ideas)
+  e.preventDefault();
+  displayIdeas(ideas)
+  clearForm()
 }
-
 
 saveBtn.addEventListener('click', saveNewIdea);
