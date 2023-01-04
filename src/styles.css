@@ -1,14 +1,62 @@
 * {
   box-sizing: border-box;
+
 }
 
-h1 {
-  text-align: center;
+header, body {
+  font-family: "Open Sans";
+  font-weight: bold;
+}
+
+body {
+  display: flex;
 }
 
 form {
   margin: auto;
 }
+
+/* Aside Styles */
+h1 {
+  color: #E9E9F3;
+  font-size: 2em;
+  text-align: center;
+}
+
+aside {
+  background-color: #1F1F3D;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  width: 20%;
+}
+
+aside section {
+  border-top: 2px solid #353567;
+  border-bottom: 2px solid #353567;
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+aside section p {
+  color: #BFBFDD;
+}
+
+aside section button {
+  background-color: #5356A4;
+  color: #E9E9F3;
+  border: 2px solid #353567;
+  width: 80%; 
+}
+
+/* Header Styles */
+
+
 
 input, button {
   margin: 5px;
