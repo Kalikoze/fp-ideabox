@@ -533,7 +533,78 @@ function hmrAcceptRun(bundle, id) {
 
 },{}],"gLLPy":[function(require,module,exports) {
 var _normalizeCss = require("normalize.css");
+var _app = require("./app");
+const title = document.querySelector("#title");
+const body = document.querySelector("#body");
+const saveBtn = document.querySelector('button[type="submit');
+const showStarred = document.querySelector("showStars");
+const search = document.querySelector("#search");
+const app = (0, _app.startApp)([]);
+const saveNewIdea = (e)=>{
+    e.preventDefault();
+    const ideas = app.addNewIdea({
+        title: title.value,
+        body: body.value
+    });
+    console.log(ideas);
+};
+saveBtn.addEventListener("click", saveNewIdea);
 
-},{"normalize.css":"eLmrl"}],"eLmrl":[function() {},{}]},["8TtF2","gLLPy"], "gLLPy", "parcelRequire94c2")
+},{"./app":"bNKaB","normalize.css":"eLmrl"}],"bNKaB":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "startApp", ()=>startApp);
+const startApp = (startingIdeas)=>{
+    let ideas = startingIdeas;
+    updateIdeas = (value)=>{
+        ideas = value;
+        return ideas;
+    };
+    const addNewIdea = (newIdea)=>{
+        return updateIdeas([
+            ...ideas,
+            {
+                ...newIdea,
+                favorited: false
+            }
+        ]);
+    };
+    return {
+        updateIdeas,
+        addNewIdea
+    };
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"eLmrl":[function() {},{}]},["8TtF2","gLLPy"], "gLLPy", "parcelRequire94c2")
 
 //# sourceMappingURL=index.4d6bcbeb.js.map
