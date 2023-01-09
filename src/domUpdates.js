@@ -10,12 +10,12 @@ const body = document.querySelector('#body');
 export const displayIdeas = ideas => {
   ideasDisplay.innerHTML = '';
   ideas.forEach(idea => {
-    const { title, body, favorited } = idea;
+    const { id, title, body, favorited } = idea;
     ideasDisplay.innerHTML += `
-    <section class='idea-card'>
+    <section class='idea-card' data-id=${id}>
       <header class='card-header'>
-        <img src=${favorited ? starActiveMg : starImg} />
-        <img src=${deleteImg}" alt="Delete icon"/>
+        <img class='favorite' src=${favorited ? starActiveMg : starImg} alt='Favorite icon' />
+        <img class='delete' src=${deleteImg}" alt='Delete icon'/>
        </header>
        <main>
         <p>${title}<p>

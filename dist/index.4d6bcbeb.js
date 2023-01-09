@@ -540,9 +540,11 @@ const body = document.querySelector("#body");
 const saveBtn = document.querySelector('button[type="submit');
 const showStarred = document.querySelector("showStars");
 const search = document.querySelector("#search");
+const ideasDisplay = document.querySelector(".ideas-container");
 const app = (0, _app.startApp)([]);
 const saveNewIdea = (e)=>{
     const ideas = app.addNewIdea({
+        id: JSON.stringify(Date.now()),
         title: title.value,
         body: body.value
     });
@@ -550,9 +552,17 @@ const saveNewIdea = (e)=>{
     (0, _domUpdates.displayIdeas)(ideas);
     (0, _domUpdates.clearForm)();
 };
+const determineAction = (e)=>{
+    if (e.target.className === "delete") {
+        const card = e.target.closest(".idea-card");
+        const ideas = app.removeIdea(card.dataset.id);
+        (0, _domUpdates.displayIdeas)(ideas);
+    }
+};
 saveBtn.addEventListener("click", saveNewIdea);
 title.addEventListener("input", (0, _domUpdates.detectInput));
 body.addEventListener("input", (0, _domUpdates.detectInput));
+ideasDisplay.addEventListener("click", determineAction);
 
 },{"normalize.css":"eLmrl","./app":"bNKaB","./domUpdates":"lf4zv"}],"eLmrl":[function() {},{}],"bNKaB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -564,6 +574,9 @@ const startApp = (startingIdeas)=>{
         ideas = value;
         return ideas;
     };
+    getIdeas = ()=>{
+        return ideas;
+    };
     const addNewIdea = (newIdea)=>{
         return updateIdeas([
             ...ideas,
@@ -573,9 +586,13 @@ const startApp = (startingIdeas)=>{
             }
         ]);
     };
+    const removeIdea = (id)=>{
+        return updateIdeas(getIdeas().filter((idea)=>idea.id !== id));
+    };
     return {
         updateIdeas,
-        addNewIdea
+        addNewIdea,
+        removeIdea
     };
 };
 
@@ -628,12 +645,12 @@ const body = document.querySelector("#body");
 const displayIdeas = (ideas)=>{
     ideasDisplay.innerHTML = "";
     ideas.forEach((idea)=>{
-        const { title , body , favorited  } = idea;
+        const { id , title , body , favorited  } = idea;
         ideasDisplay.innerHTML += `
-    <section class='idea-card'>
+    <section class='idea-card' data-id=${id}>
       <header class='card-header'>
-        <img src=${favorited ? starActiveMg : (0, _starSvgDefault.default)} />
-        <img src=${0, _deleteSvgDefault.default}" alt="Delete icon"/>
+        <img class='favorite' src=${favorited ? starActiveMg : (0, _starSvgDefault.default)} alt='Favorite icon' />
+        <img class='delete' src=${0, _deleteSvgDefault.default}" alt='Delete icon'/>
        </header>
        <main>
         <p>${title}<p>
