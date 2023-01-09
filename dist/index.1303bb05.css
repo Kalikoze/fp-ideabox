@@ -95,6 +95,10 @@ button {
   background-color: #1f1f3d;
 }
 
+button:disabled {
+  background-color: #a9aad2;
+}
+
 .ideas-container {
   height: 70%;
   grid-gap: 20px;

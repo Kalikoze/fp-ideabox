@@ -551,6 +551,8 @@ const saveNewIdea = (e)=>{
     (0, _domUpdates.clearForm)();
 };
 saveBtn.addEventListener("click", saveNewIdea);
+title.addEventListener("input", (0, _domUpdates.detectInput));
+body.addEventListener("input", (0, _domUpdates.detectInput));
 
 },{"normalize.css":"eLmrl","./app":"bNKaB","./domUpdates":"lf4zv"}],"eLmrl":[function() {},{}],"bNKaB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -612,17 +614,21 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "displayIdeas", ()=>displayIdeas);
 parcelHelpers.export(exports, "clearForm", ()=>clearForm);
+parcelHelpers.export(exports, "detectInput", ()=>detectInput);
 var _starSvg = require("../assets/star.svg");
 var _starSvgDefault = parcelHelpers.interopDefault(_starSvg);
 var _starActiveSvg = require("../assets/star-active.svg");
 var _starActiveSvgDefault = parcelHelpers.interopDefault(_starActiveSvg);
 var _deleteSvg = require("../assets/delete.svg");
 var _deleteSvgDefault = parcelHelpers.interopDefault(_deleteSvg);
+const saveBtn = document.querySelector('button[type="submit');
 const ideasDisplay = document.querySelector(".ideas-container");
+const title = document.querySelector("#title");
+const body = document.querySelector("#body");
 const displayIdeas = (ideas)=>{
     ideasDisplay.innerHTML = "";
     ideas.forEach((idea)=>{
-        const { title: title1 , body: body1 , favorited  } = idea;
+        const { title , body , favorited  } = idea;
         ideasDisplay.innerHTML += `
     <section class='idea-card'>
       <header class='card-header'>
@@ -630,12 +636,11 @@ const displayIdeas = (ideas)=>{
         <img src=${0, _deleteSvgDefault.default}" alt="Delete icon"/>
        </header>
        <main>
-        <p>${title1}<p>
-        <p>${body1}<p/>
+        <p>${title}<p>
+        <p>${body}<p/>
        </main>
        <footer>
        </footer>
-    
     </section>
   `;
     });
@@ -643,6 +648,10 @@ const displayIdeas = (ideas)=>{
 const clearForm = ()=>{
     title.value = "";
     body.value = "";
+    detectInput();
+};
+const detectInput = ()=>{
+    saveBtn.disabled = !(title.value && body.value);
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../assets/delete.svg":"gGdY7","../assets/star-active.svg":"bsMkg","../assets/star.svg":"aR7yF"}],"gGdY7":[function(require,module,exports) {

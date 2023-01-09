@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "parcel index.html"
+  },
   "dependencies": {
     "normalize.css": "^8.0.1",
     "parcel": "^2.8.2"
