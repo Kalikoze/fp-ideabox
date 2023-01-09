@@ -5,7 +5,7 @@ import { displayIdeas, clearForm, detectInput } from './domUpdates';
 const title = document.querySelector('#title');
 const body = document.querySelector('#body');
 const saveBtn = document.querySelector('button[type="submit');
-const showStarred = document.querySelector('showStars');
+const showStarred = document.querySelector('#showStars');
 const search = document.querySelector('#search');
 const ideasDisplay = document.querySelector('.ideas-container');
 
@@ -31,9 +31,23 @@ const determineAction = (e) => {
   }
 }
 
+const determineIdeas = () => {
+  if (showStarred.dataset.display === 'all') {
+    const favorites = app.getFavorites();
+    displayIdeas(favorites);
+    showStarred.innerText = 'Show All Ideas';
+    showStarred.dataset.display = 'favorites';
+  } else {
+    displayIdeas(app.getIdeas());
+    showStarred.innerText = 'Show Starred Ideas';
+    showStarred.dataset.display = 'all';
+  }
+}
+
 saveBtn.addEventListener('click', saveNewIdea);
 title.addEventListener('input', detectInput);
 body.addEventListener('input', detectInput);
 ideasDisplay.addEventListener('click', determineAction);
+showStarred.addEventListener('click', determineIdeas);
 
 

@@ -538,7 +538,7 @@ var _domUpdates = require("./domUpdates");
 const title = document.querySelector("#title");
 const body = document.querySelector("#body");
 const saveBtn = document.querySelector('button[type="submit');
-const showStarred = document.querySelector("showStars");
+const showStarred = document.querySelector("#showStars");
 const search = document.querySelector("#search");
 const ideasDisplay = document.querySelector(".ideas-container");
 const app = (0, _app.startApp)([]);
@@ -563,10 +563,23 @@ const determineAction = (e)=>{
         (0, _domUpdates.displayIdeas)(ideas1);
     }
 };
+const determineIdeas = ()=>{
+    if (showStarred.dataset.display === "all") {
+        const favorites = app.getFavorites();
+        (0, _domUpdates.displayIdeas)(favorites);
+        showStarred.innerText = "Show All Ideas";
+        showStarred.dataset.display = "favorites";
+    } else {
+        (0, _domUpdates.displayIdeas)(app.getIdeas());
+        showStarred.innerText = "Show Starred Ideas";
+        showStarred.dataset.display = "all";
+    }
+};
 saveBtn.addEventListener("click", saveNewIdea);
 title.addEventListener("input", (0, _domUpdates.detectInput));
 body.addEventListener("input", (0, _domUpdates.detectInput));
 ideasDisplay.addEventListener("click", determineAction);
+showStarred.addEventListener("click", determineIdeas);
 
 },{"normalize.css":"eLmrl","./app":"bNKaB","./domUpdates":"lf4zv"}],"eLmrl":[function() {},{}],"bNKaB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -599,11 +612,16 @@ const startApp = (startingIdeas)=>{
             return idea;
         }));
     };
+    const getFavorites = ()=>{
+        return getIdeas().filter((idea)=>idea.favorited);
+    };
     return {
+        getIdeas,
         updateIdeas,
         addNewIdea,
         removeIdea,
-        updateFavorite
+        updateFavorite,
+        getFavorites
     };
 };
 

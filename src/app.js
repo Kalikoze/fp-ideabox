@@ -27,10 +27,16 @@ export const startApp = (startingIdeas) => {
     }));
   }
 
+  const getFavorites = () => {
+    return getIdeas().filter(idea => idea.favorited);
+  }
+
   return {
+    getIdeas,
     updateIdeas,
     addNewIdea,
     removeIdea,
-    updateFavorite
+    updateFavorite,
+    getFavorites
   }
 }
