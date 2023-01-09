@@ -557,6 +557,10 @@ const determineAction = (e)=>{
         const card = e.target.closest(".idea-card");
         const ideas = app.removeIdea(card.dataset.id);
         (0, _domUpdates.displayIdeas)(ideas);
+    } else if (e.target.className === "favorite") {
+        const card1 = e.target.closest(".idea-card");
+        const ideas1 = app.updateFavorite(card1.dataset.id);
+        (0, _domUpdates.displayIdeas)(ideas1);
     }
 };
 saveBtn.addEventListener("click", saveNewIdea);
@@ -589,10 +593,17 @@ const startApp = (startingIdeas)=>{
     const removeIdea = (id)=>{
         return updateIdeas(getIdeas().filter((idea)=>idea.id !== id));
     };
+    const updateFavorite = (id)=>{
+        return updateIdeas(getIdeas().map((idea)=>{
+            if (idea.id === id) idea.favorited = !idea.favorited;
+            return idea;
+        }));
+    };
     return {
         updateIdeas,
         addNewIdea,
-        removeIdea
+        removeIdea,
+        updateFavorite
     };
 };
 
@@ -649,7 +660,7 @@ const displayIdeas = (ideas)=>{
         ideasDisplay.innerHTML += `
     <section class='idea-card' data-id=${id}>
       <header class='card-header'>
-        <img class='favorite' src=${favorited ? starActiveMg : (0, _starSvgDefault.default)} alt='Favorite icon' />
+        <img class='favorite' src=${favorited ? (0, _starActiveSvgDefault.default) : (0, _starSvgDefault.default)} alt='Favorite icon' />
         <img class='delete' src=${0, _deleteSvgDefault.default}" alt='Delete icon'/>
        </header>
        <main>

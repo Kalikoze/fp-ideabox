@@ -24,6 +24,10 @@ const determineAction = (e) => {
     const card = e.target.closest('.idea-card');
     const ideas = app.removeIdea(card.dataset.id);
     displayIdeas(ideas);
+  } else if (e.target.className === 'favorite') {
+    const card = e.target.closest('.idea-card');
+    const ideas = app.updateFavorite(card.dataset.id);
+    displayIdeas(ideas);
   }
 }
 

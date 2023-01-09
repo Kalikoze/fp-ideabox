@@ -14,7 +14,7 @@ export const displayIdeas = ideas => {
     ideasDisplay.innerHTML += `
     <section class='idea-card' data-id=${id}>
       <header class='card-header'>
-        <img class='favorite' src=${favorited ? starActiveMg : starImg} alt='Favorite icon' />
+        <img class='favorite' src=${favorited ? starActiveImg : starImg} alt='Favorite icon' />
         <img class='delete' src=${deleteImg}" alt='Delete icon'/>
        </header>
        <main>

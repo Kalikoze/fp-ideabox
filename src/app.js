@@ -18,9 +18,19 @@ export const startApp = (startingIdeas) => {
   return updateIdeas(getIdeas().filter(idea => idea.id !== id));
   }
 
+  const updateFavorite = id => {
+     return updateIdeas(getIdeas().map(idea => {
+      if (idea.id === id) {
+        idea.favorited = !idea.favorited
+      }
+      return idea;
+    }));
+  }
+
   return {
     updateIdeas,
     addNewIdea,
-    removeIdea
+    removeIdea,
+    updateFavorite
   }
 }
