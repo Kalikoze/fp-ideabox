@@ -553,33 +553,32 @@ const saveNewIdea = (e)=>{
     (0, _domUpdates.clearForm)();
 };
 const determineAction = (e)=>{
+    const card = e.target.closest(".idea-card");
     if (e.target.className === "delete") {
-        const card = e.target.closest(".idea-card");
         const ideas = app.removeIdea(card.dataset.id);
         (0, _domUpdates.displayIdeas)(ideas);
     } else if (e.target.className === "favorite") {
-        const card1 = e.target.closest(".idea-card");
-        const ideas1 = app.updateFavorite(card1.dataset.id);
+        const ideas1 = app.updateFavorite(card.dataset.id);
         (0, _domUpdates.displayIdeas)(ideas1);
     }
 };
 const determineIdeas = ()=>{
-    if (showStarred.dataset.display === "all") {
-        const favorites = app.getFavorites();
-        (0, _domUpdates.displayIdeas)(favorites);
-        showStarred.innerText = "Show All Ideas";
-        showStarred.dataset.display = "favorites";
-    } else {
-        (0, _domUpdates.displayIdeas)(app.getIdeas());
-        showStarred.innerText = "Show Starred Ideas";
-        showStarred.dataset.display = "all";
-    }
+    const viewFavorites = app.getDisplay();
+    const ideasShown = viewFavorites ? app.getFavorites() : app.getIdeas();
+    showStarred.innerText = viewFavorites ? "Show All Ideas" : "Show Starred Ideas";
+    (0, _domUpdates.displayIdeas)(ideasShown);
+    app.updateDisplay();
+};
+const filterByInput = (e)=>{
+    const ideas = app.filterIdeas(e.target.value);
+    (0, _domUpdates.displayIdeas)(ideas);
 };
 saveBtn.addEventListener("click", saveNewIdea);
 title.addEventListener("input", (0, _domUpdates.detectInput));
 body.addEventListener("input", (0, _domUpdates.detectInput));
 ideasDisplay.addEventListener("click", determineAction);
 showStarred.addEventListener("click", determineIdeas);
+search.addEventListener("input", filterByInput);
 
 },{"normalize.css":"eLmrl","./app":"bNKaB","./domUpdates":"lf4zv"}],"eLmrl":[function() {},{}],"bNKaB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -587,12 +586,19 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "startApp", ()=>startApp);
 const startApp = (startingIdeas)=>{
     let ideas = startingIdeas;
+    let showFavorites = true;
+    getIdeas = ()=>{
+        return ideas;
+    };
     updateIdeas = (value)=>{
         ideas = value;
         return ideas;
     };
-    getIdeas = ()=>{
-        return ideas;
+    getDisplay = ()=>{
+        return showFavorites;
+    };
+    updateDisplay = ()=>{
+        showFavorites = !showFavorites;
     };
     const addNewIdea = (newIdea)=>{
         return updateIdeas([
@@ -615,13 +621,23 @@ const startApp = (startingIdeas)=>{
     const getFavorites = ()=>{
         return getIdeas().filter((idea)=>idea.favorited);
     };
+    const filterIdeas = (value)=>{
+        const ideasToFilter = getDisplay() ? getIdeas() : getFavorites();
+        return ideasToFilter.filter((idea)=>{
+            const { title , body  } = idea;
+            return title.toUpperCase().includes(value.toUpperCase()) || body.toUpperCase().includes(value.toUpperCase());
+        });
+    };
     return {
         getIdeas,
         updateIdeas,
+        getDisplay,
+        updateDisplay,
         addNewIdea,
         removeIdea,
         updateFavorite,
-        getFavorites
+        getFavorites,
+        filterIdeas
     };
 };
 

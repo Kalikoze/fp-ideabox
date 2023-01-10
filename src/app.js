@@ -1,13 +1,22 @@
 export const startApp = (startingIdeas) => {
   let ideas = startingIdeas;
+  let showFavorites = true;
+
+  getIdeas = () => {
+    return ideas;
+  }
 
   updateIdeas = value => {
     ideas = value;
     return ideas;
   }
 
-  getIdeas = () => {
-    return ideas;
+  getDisplay = () => {
+    return showFavorites
+  }
+
+  updateDisplay = () => {
+    showFavorites = !showFavorites
   }
 
   const addNewIdea = newIdea => {
@@ -31,12 +40,23 @@ export const startApp = (startingIdeas) => {
     return getIdeas().filter(idea => idea.favorited);
   }
 
+  const filterIdeas = value => {
+    const ideasToFilter = getDisplay() ? getIdeas() : getFavorites();
+    return ideasToFilter.filter(idea => {
+      const { title, body } = idea;
+      return title.toUpperCase().includes(value.toUpperCase()) || body.toUpperCase().includes(value.toUpperCase());
+    })
+  }
+
   return {
     getIdeas,
     updateIdeas,
+    getDisplay,
+    updateDisplay,
     addNewIdea,
     removeIdea,
     updateFavorite,
-    getFavorites
+    getFavorites,
+    filterIdeas
   }
 }

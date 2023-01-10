@@ -1,5 +1,5 @@
 import 'normalize.css';
-import { startApp, removeIdea } from './app';
+import { startApp, getDisplay, updateDisplay, removeIdea } from './app';
 import { displayIdeas, clearForm, detectInput } from './domUpdates';
 
 const title = document.querySelector('#title');
@@ -20,28 +20,27 @@ const saveNewIdea = (e) => {
 }
 
 const determineAction = (e) => {
+  const card = e.target.closest('.idea-card');
   if (e.target.className === 'delete') {
-    const card = e.target.closest('.idea-card');
     const ideas = app.removeIdea(card.dataset.id);
     displayIdeas(ideas);
   } else if (e.target.className === 'favorite') {
-    const card = e.target.closest('.idea-card');
     const ideas = app.updateFavorite(card.dataset.id);
     displayIdeas(ideas);
   }
 }
 
 const determineIdeas = () => {
-  if (showStarred.dataset.display === 'all') {
-    const favorites = app.getFavorites();
-    displayIdeas(favorites);
-    showStarred.innerText = 'Show All Ideas';
-    showStarred.dataset.display = 'favorites';
-  } else {
-    displayIdeas(app.getIdeas());
-    showStarred.innerText = 'Show Starred Ideas';
-    showStarred.dataset.display = 'all';
-  }
+  const viewFavorites = app.getDisplay();
+  const ideasShown = viewFavorites ? app.getFavorites() : app.getIdeas();
+  showStarred.innerText = viewFavorites ? 'Show All Ideas' : 'Show Starred Ideas';
+  displayIdeas(ideasShown)
+  app.updateDisplay();
+}
+
+const filterByInput = e => {
+  const ideas = app.filterIdeas(e.target.value);
+  displayIdeas(ideas);
 }
 
 saveBtn.addEventListener('click', saveNewIdea);
@@ -49,5 +48,6 @@ title.addEventListener('input', detectInput);
 body.addEventListener('input', detectInput);
 ideasDisplay.addEventListener('click', determineAction);
 showStarred.addEventListener('click', determineIdeas);
+search.addEventListener('input', filterByInput);
 
 
