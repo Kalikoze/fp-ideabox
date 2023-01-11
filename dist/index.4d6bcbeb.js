@@ -532,8 +532,10 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"gLLPy":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _normalizeCss = require("normalize.css");
-var _app = require("./app");
+var _startApp = require("./startApp");
+var _startAppDefault = parcelHelpers.interopDefault(_startApp);
 var _domUpdates = require("./domUpdates");
 const title = document.querySelector("#title");
 const body = document.querySelector("#body");
@@ -541,12 +543,13 @@ const saveBtn = document.querySelector('button[type="submit');
 const showStarred = document.querySelector("#showStars");
 const search = document.querySelector("#search");
 const ideasDisplay = document.querySelector(".ideas-container");
-const app = (0, _app.startApp)([]);
+const app = (0, _startAppDefault.default)([]);
 const saveNewIdea = (e)=>{
     const ideas = app.addNewIdea({
         id: JSON.stringify(Date.now()),
         title: title.value,
-        body: body.value
+        body: body.value,
+        favorited: false
     });
     e.preventDefault();
     (0, _domUpdates.displayIdeas)(ideas);
@@ -563,11 +566,11 @@ const determineAction = (e)=>{
     }
 };
 const determineIdeas = ()=>{
-    const viewFavorites = app.getDisplay();
-    const ideasShown = viewFavorites ? app.getFavorites() : app.getIdeas();
-    showStarred.innerText = viewFavorites ? "Show All Ideas" : "Show Starred Ideas";
-    (0, _domUpdates.displayIdeas)(ideasShown);
     app.updateDisplay();
+    const showFavorites = app.getDisplay();
+    const ideasShown = showFavorites ? app.getFavorites() : app.getIdeas();
+    showStarred.innerText = showFavorites ? "Show All Ideas" : "Show Starred Ideas";
+    (0, _domUpdates.displayIdeas)(ideasShown);
 };
 const filterByInput = (e)=>{
     const ideas = app.filterIdeas(e.target.value);
@@ -580,32 +583,28 @@ ideasDisplay.addEventListener("click", determineAction);
 showStarred.addEventListener("click", determineIdeas);
 search.addEventListener("input", filterByInput);
 
-},{"normalize.css":"eLmrl","./app":"bNKaB","./domUpdates":"lf4zv"}],"eLmrl":[function() {},{}],"bNKaB":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "startApp", ()=>startApp);
+},{"normalize.css":"eLmrl","./startApp":"cy4q3","./domUpdates":"lf4zv","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eLmrl":[function() {},{}],"cy4q3":[function(require,module,exports) {
 const startApp = (startingIdeas)=>{
     let ideas = startingIdeas;
-    let showFavorites = true;
-    getIdeas = ()=>{
+    let showFavorites = false;
+    const getIdeas = ()=>{
         return ideas;
     };
-    updateIdeas = (value)=>{
+    const updateIdeas = (value)=>{
         ideas = value;
         return ideas;
     };
-    getDisplay = ()=>{
+    const getDisplay = ()=>{
         return showFavorites;
     };
-    updateDisplay = ()=>{
+    const updateDisplay = ()=>{
         showFavorites = !showFavorites;
     };
     const addNewIdea = (newIdea)=>{
         return updateIdeas([
             ...ideas,
             {
-                ...newIdea,
-                favorited: false
+                ...newIdea
             }
         ]);
     };
@@ -614,15 +613,18 @@ const startApp = (startingIdeas)=>{
     };
     const updateFavorite = (id)=>{
         return updateIdeas(getIdeas().map((idea)=>{
-            if (idea.id === id) idea.favorited = !idea.favorited;
-            return idea;
+            const { favorited  } = idea;
+            return {
+                ...idea,
+                favorited: idea.id === id ? !favorited : favorited
+            };
         }));
     };
     const getFavorites = ()=>{
         return getIdeas().filter((idea)=>idea.favorited);
     };
     const filterIdeas = (value)=>{
-        const ideasToFilter = getDisplay() ? getIdeas() : getFavorites();
+        const ideasToFilter = getDisplay() ? getFavorites() : getIdeas();
         return ideasToFilter.filter((idea)=>{
             const { title , body  } = idea;
             return title.toUpperCase().includes(value.toUpperCase()) || body.toUpperCase().includes(value.toUpperCase());
@@ -640,36 +642,7 @@ const startApp = (startingIdeas)=>{
         filterIdeas
     };
 };
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
+module.exports = startApp;
 
 },{}],"lf4zv":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -716,10 +689,10 @@ const detectInput = ()=>{
     saveBtn.disabled = !(title.value && body.value);
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../assets/delete.svg":"gGdY7","../assets/star-active.svg":"bsMkg","../assets/star.svg":"aR7yF"}],"gGdY7":[function(require,module,exports) {
-module.exports = require("4fae05842b00838b").getBundleURL("gnRNX") + "delete.a02ac8f9.svg" + "?" + Date.now();
+},{"../assets/star.svg":"aR7yF","../assets/star-active.svg":"bsMkg","../assets/delete.svg":"gGdY7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aR7yF":[function(require,module,exports) {
+module.exports = require("91dffa3d0eff875d").getBundleURL("gnRNX") + "star.73f8a24b.svg" + "?" + Date.now();
 
-},{"4fae05842b00838b":"lgJ39"}],"lgJ39":[function(require,module,exports) {
+},{"91dffa3d0eff875d":"lgJ39"}],"lgJ39":[function(require,module,exports) {
 "use strict";
 var bundleURL = {};
 function getBundleURLCached(id) {
@@ -756,9 +729,39 @@ exports.getOrigin = getOrigin;
 },{}],"bsMkg":[function(require,module,exports) {
 module.exports = require("94018055e59fa1b7").getBundleURL("gnRNX") + "star-active.e4bbcde6.svg" + "?" + Date.now();
 
-},{"94018055e59fa1b7":"lgJ39"}],"aR7yF":[function(require,module,exports) {
-module.exports = require("91dffa3d0eff875d").getBundleURL("gnRNX") + "star.73f8a24b.svg" + "?" + Date.now();
+},{"94018055e59fa1b7":"lgJ39"}],"gGdY7":[function(require,module,exports) {
+module.exports = require("4fae05842b00838b").getBundleURL("gnRNX") + "delete.a02ac8f9.svg" + "?" + Date.now();
 
-},{"91dffa3d0eff875d":"lgJ39"}]},["8TtF2","gLLPy"], "gLLPy", "parcelRequire94c2")
+},{"4fae05842b00838b":"lgJ39"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}]},["8TtF2","gLLPy"], "gLLPy", "parcelRequire94c2")
 
 //# sourceMappingURL=index.4d6bcbeb.js.map

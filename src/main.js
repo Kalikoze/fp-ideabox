@@ -1,5 +1,5 @@
 import 'normalize.css';
-import { startApp, getDisplay, updateDisplay, removeIdea } from './app';
+import startApp from './startApp';
 import { displayIdeas, clearForm, detectInput } from './domUpdates';
 
 const title = document.querySelector('#title');
@@ -13,7 +13,12 @@ const ideasDisplay = document.querySelector('.ideas-container');
 const app = startApp([]);
 
 const saveNewIdea = (e) => {
-  const ideas = app.addNewIdea({ id: JSON.stringify(Date.now()), title: title.value, body: body.value });
+  const ideas = app.addNewIdea({ 
+    id: JSON.stringify(Date.now()), 
+    title: title.value, 
+    body: body.value, 
+    favorited: false 
+  });
   e.preventDefault();
   displayIdeas(ideas)
   clearForm();
@@ -31,11 +36,11 @@ const determineAction = (e) => {
 }
 
 const determineIdeas = () => {
-  const viewFavorites = app.getDisplay();
-  const ideasShown = viewFavorites ? app.getFavorites() : app.getIdeas();
-  showStarred.innerText = viewFavorites ? 'Show All Ideas' : 'Show Starred Ideas';
-  displayIdeas(ideasShown)
   app.updateDisplay();
+  const showFavorites = app.getDisplay();
+  const ideasShown = showFavorites ? app.getFavorites() : app.getIdeas();
+  showStarred.innerText = showFavorites ? 'Show All Ideas' : 'Show Starred Ideas';
+  displayIdeas(ideasShown)
 }
 
 const filterByInput = e => {
