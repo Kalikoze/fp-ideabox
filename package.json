@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "parcel index.html",
+    "start": "parcel src/index.html",
     "test": "mocha"
   },
   "dependencies": {

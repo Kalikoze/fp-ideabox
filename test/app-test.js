@@ -1,4 +1,4 @@
-const startApp = require('../src/startApp');
+const startApp = require('../src/scripts/startApp');
 const { expect } = require('chai');
 const mockIdeas = require('./mockIdeas');
 

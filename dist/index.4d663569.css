@@ -95,6 +95,10 @@ button {
   background-color: #1f1f3d;
 }
 
+button:disabled {
+  background-color: #a9aad2;
+}
+
 .ideas-container {
   height: 70%;
   grid-gap: 20px;
@@ -126,6 +130,11 @@ img {
   height: 70%;
   width: 100%;
   background-color: #fff;
+  display: flex;
+}
+
+.idea-card main p:first-child {
+  margin-bottom: 20px;
 }
 
 .idea-card footer {
