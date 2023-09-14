@@ -13,7 +13,7 @@ Run similar steps above including:
 2. `npm t` to run the tests.
 
 ## Learning Goals
-This project was used as an opportunity to experiment with different functional programming principles rather than that OOP principals we've been studying/teaching at the Turing School of Software & Design.  The below section is a reflection of what principles I was able to incorporate into a stand **IdeaBox** project.
+This project was used as an opportunity to experiment with different functional programming principles rather than the OOP principals we've been studying/teaching at the Turing School of Software & Design.  The below section is a reflection of what principles I was able to incorporate into a stand **IdeaBox** project.
 
 ## Examples of Functional Programming:
 
